@@ -5,6 +5,11 @@ namespace Com
 {
 	public abstract class AbstractButton : MonoBehaviour
 	{
+		public void ButtonClick()
+		{
+			ButtonAction();
+		}
+
 		protected abstract void ButtonAction();
 	}
 }

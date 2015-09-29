@@ -10,8 +10,6 @@ namespace Com
 	{
 		public static event Action OnStartLoad;
 
-		private AsyncOperation _asyncOperation;
-
 		public static void StartLoadLevel(LevelId level)
 		{
 			Instance.LoadLevel(level);
@@ -24,18 +22,7 @@ namespace Com
 				OnStartLoad();
 			}
 
-			_asyncOperation = Application.LoadLevelAsync(LevelsDictionary.GetLevelDataById(level).LevelName);
-			_asyncOperation.allowSceneActivation = false;
-
-			AllowSceneActivation();
-		}
-
-		private void AllowSceneActivation()
-		{
-			if(_asyncOperation!=null)
-			{
-				_asyncOperation.allowSceneActivation = true;
-			}
+			Application.LoadLevel(LevelsDictionary.GetLevelDataById(level).LevelName);
 		}
 	}
 }

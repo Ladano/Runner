@@ -14,10 +14,46 @@ namespace Com.Game
 			{ Tags.GameSpawnTerrain, OnSpawnTerrainTrigger }
 		};
 
+		public static event Action<int> OnScoreValueChange;
+		public static event Action<int> OnTimePlayedValueChange;
+
+		private static int _score;
+		public static int Score
+		{
+			get { return _score; }
+			set
+			{
+				if(_score!=value)
+				{
+					_score = value;
+					if(OnScoreValueChange!=null)
+					{
+						OnScoreValueChange(_score);
+					}
+				}
+			}
+		}
+
+		private static float _realTimePlayed;
+		private static int _timePlayed = 0;
+		public static int TimePlayed
+		{
+			get { return _timePlayed; }
+			set
+			{
+				if(_timePlayed!=value)
+				{
+					_timePlayed = value;
+					if(OnTimePlayedValueChange!=null)
+					{
+						OnTimePlayedValueChange(_score);
+					}
+				}
+			}
+		}
+
 		[SerializeField] private PlayerController _playerController;
 		[SerializeField] private TerrainGenerator _terrainGenerator;
-		[SerializeField] private GUIText _time;
-		[SerializeField] private GUIText _score;
 
 		private void OnEnable()
 		{
@@ -33,6 +69,14 @@ namespace Com.Game
 		{
 			
 		}
+
+		#region Time
+		private void Update()
+		{
+			_realTimePlayed += Time.deltaTime;
+			_timePlayed = Mathf.CeilToInt(_realTimePlayed);
+		}
+		#endregion
 
 		#region Player Collisions
 		private void OnPlayerCollision(string objectTag)
@@ -52,6 +96,7 @@ namespace Com.Game
 		private static void OnPickUpBonus()
 		{
 			//TODO player pick up bonus
+			Score += 10;
 		}
 
 		private static void OnSpawnTerrainTrigger()
@@ -59,7 +104,5 @@ namespace Com.Game
 			//TODO spawn terrain trigger
 		}
 		#endregion
-
-
 	}
 }

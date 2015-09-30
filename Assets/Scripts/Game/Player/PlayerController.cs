@@ -7,14 +7,19 @@ namespace Com.Game
 	{
 		private const string PlayerAnimatorJumpTrigger = "Jump";
 
+		public static event System.Action<string> OnObjectCollision;
+
 		[SerializeField] private Animator _playerAnimator;
-		[SerializeField] private CharacterController _characterController;
+		[SerializeField] private Transform _player;
 		[SerializeField] private GameObject _playerCapsule;
 		private int _currentPos = 0;
+		private bool _isGrounded = true;
 
 		private void Update()
 		{
 			InputMethod();
+
+			_isGrounded = CheckGround();
 		}
 
 		private void InputMethod()
@@ -33,6 +38,19 @@ namespace Com.Game
 			}
 		}
 
+		private bool CheckGround()
+		{
+			RaycastHit hit;
+			if(Physics.Raycast(_player.position, Vector3.down, out hit, 0.01f))
+			{
+				if(hit.transform.CompareTag(Tags.GameGround))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		private void Move(int direction)
 		{
 			int newPos = Mathf.Clamp(_currentPos + direction, -1, 1);
@@ -46,27 +64,17 @@ namespace Com.Game
 
 		private void Jump()
 		{
-			Debug.Log("isGrounded = " + _characterController.isGrounded);
-			//if(_characterController.isGrounded)
-			//{
+			if(_isGrounded)
+			{
 				_playerAnimator.SetTrigger(PlayerAnimatorJumpTrigger);
-			//}
+			}
 		}
 
-		private void OnControllerColliderHit(ControllerColliderHit hit)
+		private void OnTriggerEnter(Collider collider)
 		{
-			switch(hit.collider.tag)
+			if(OnObjectCollision!=null)
 			{
-			case Tags.GameObstacle:
-				//TODO death
-				hit.gameObject.SetActive(false);
-				Debug.Log("death");
-				break;
-			case Tags.GameBonus:
-				//TODO pick up bonus
-				hit.gameObject.SetActive(false);
-				Debug.Log("pick up");
-				break;
+				OnObjectCollision(collider.tag);
 			}
 		}
 	}

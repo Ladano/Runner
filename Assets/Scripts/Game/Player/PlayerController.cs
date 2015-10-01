@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Com.Game
 {
-	public class PlayerController : MonoBehaviour
+	public class PlayerController : AbstractGameController
 	{
 		private enum MoveSide { left =  -1, rigth = 1 }
 
@@ -14,21 +14,26 @@ namespace Com.Game
 		[SerializeField] private float _moveSideTime = 0.2f;
 		[SerializeField] private float _jumpTime = 1.0f;
 		[SerializeField] private float _jumpHeight = 1.0f;
-		private bool _isControlActive = true;
+		private bool _isControlActive = false;
 		private int _currentPos = 0; //может принимать значения (-1)слева, (0)по цетру, (1)справа
 
-		private void OnEnable()
+		protected override void Init()
 		{
-			GameController.OnGameOver += PlayerDeath;
-		}
 
-		private void OnDisable()
+		}
+		
+		protected override void StartGame()
 		{
-			GameController.OnGameOver -= PlayerDeath;
+			_isControlActive = true;	
+		}
+		
+		protected override void EndGame()
+		{
+			_player.SetActive	(false);
 		}
 
 		#region Controls
-		private void Update()
+		protected override void OnUpdate()
 		{
 			PlayerControlMethod();
 		}
@@ -88,10 +93,5 @@ namespace Com.Game
 			_isControlActive = true;
 		}
 		#endregion
-
-		private void PlayerDeath()
-		{
-
-		}
 	}
 }

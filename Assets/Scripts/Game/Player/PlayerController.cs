@@ -5,77 +5,93 @@ namespace Com.Game
 {
 	public class PlayerController : MonoBehaviour
 	{
-		private const string PlayerAnimatorJumpTrigger = "Jump";
+		private enum MoveSide { left =  -1, rigth = 1 }
 
-		public static event System.Action<string> OnObjectCollision;
+		[SerializeField] private GameObject _player;
+		[SerializeField] private GameObject _playerPhysicBody;
+		[SerializeField] private GameObject _playerGraphicBody;
+		[SerializeField] private float _lineOffset = 1.2f;
+		[SerializeField] private float _moveSideTime = 0.2f;
+		[SerializeField] private float _jumpTime = 1.0f;
+		[SerializeField] private float _jumpHeight = 1.0f;
+		private bool _isControlActive = true;
+		private int _currentPos = 0; //может принимать значения (-1)слева, (0)по цетру, (1)справа
 
-		[SerializeField] private Animator _playerAnimator;
-		[SerializeField] private Transform _player;
-		[SerializeField] private GameObject _playerCapsule;
-		private int _currentPos = 0;
-		private bool _isGrounded = true;
+		private void OnEnable()
+		{
+			GameController.OnGameOver += PlayerDeath;
+		}
 
+		private void OnDisable()
+		{
+			GameController.OnGameOver -= PlayerDeath;
+		}
+
+		#region Controls
 		private void Update()
 		{
-			InputMethod();
-
-			_isGrounded = CheckGround();
+			PlayerControlMethod();
 		}
 
-		private void InputMethod()
+		private void PlayerControlMethod()
 		{
-			if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+			if(_isControlActive)
 			{
-				Move(-1);
-			}
-			if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-			{
-				Move(1);
-			}
-			if(Input.GetKeyDown(KeyCode.Space))
-			{
-				Jump();
-			}
-		}
-
-		private bool CheckGround()
-		{
-			RaycastHit hit;
-			if(Physics.Raycast(_player.position, Vector3.down, out hit, 0.01f))
-			{
-				if(hit.transform.CompareTag(Tags.GameGround))
+				if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
 				{
-					return true;
+					Move(MoveSide.left);
+				}
+				if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+				{
+					Move(MoveSide.rigth);
+				}
+				if(Input.GetKeyDown(KeyCode.Space))
+				{
+					Jump();
 				}
 			}
-			return false;
 		}
 
-		private void Move(int direction)
+		/// <summary>
+		/// Move the specified direction.
+		/// </summary>
+		/// <param name="direction">Direction.</param>
+		private void Move(MoveSide direction)
 		{
-			int newPos = Mathf.Clamp(_currentPos + direction, -1, 1);
+			int newPos = Mathf.Clamp(_currentPos + (int)direction, -1, 1);
 			if(newPos!=_currentPos)
 			{
 				_currentPos = newPos;
-				transform.localPosition = new Vector3(1.2f * _currentPos, transform.localPosition.y, transform.localPosition.z);
-				LeanTween.move(_playerCapsule, transform.position, 0.2f);
+				_isControlActive = false;
+				_playerPhysicBody.transform.localPosition = new Vector3(_lineOffset * _currentPos,
+				                                                        _playerPhysicBody.transform.localPosition.y,
+				                                                        _playerPhysicBody.transform.localPosition.z);
+				LeanTween.move(_playerGraphicBody, _playerPhysicBody.transform.position, _moveSideTime)
+					.setOnComplete(UnlockConrol);
 			}
 		}
 
+		/// <summary>
+		/// Jump player
+		/// </summary>
 		private void Jump()
 		{
-			if(_isGrounded)
-			{
-				_playerAnimator.SetTrigger(PlayerAnimatorJumpTrigger);
-			}
+			_isControlActive = false;
+			LeanTween.moveLocalY(_player, _player.transform.localPosition.y + _jumpHeight, _jumpTime / 2)
+				.setLoopCount(2)
+				.setLoopType(LeanTweenType.pingPong)
+				.setOnComplete(UnlockConrol);
 		}
 
-		private void OnTriggerEnter(Collider collider)
+		private void UnlockConrol()
 		{
-			if(OnObjectCollision!=null)
-			{
-				OnObjectCollision(collider.tag);
-			}
+			_isControlActive = true;
+		}
+		#endregion
+
+		private void PlayerDeath()
+		{
+
 		}
 	}
 }

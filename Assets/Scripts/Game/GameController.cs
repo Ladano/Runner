@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ namespace Com.Game
 			{ Tags.GameSpawnTerrain, OnSpawnTerrainTrigger }
 		};
 
+		public static event Action OnGameOver;
 		public static event Action<int> OnScoreValueChange;
 		public static event Action<int> OnTimePlayedValueChange;
 
@@ -57,12 +58,12 @@ namespace Com.Game
 
 		private void OnEnable()
 		{
-			PlayerController.OnObjectCollision += OnPlayerCollision;
+			PlayerCollisionsController.OnObjectCollision += OnPlayerCollision;
 		}
 
 		private void OnDisable()
 		{
-			PlayerController.OnObjectCollision -= OnPlayerCollision;
+			PlayerCollisionsController.OnObjectCollision -= OnPlayerCollision;
 		}
 
 		private void Start()

@@ -8,6 +8,5 @@ namespace Com
 		public const string GameObstacle = "GameObstacle";
 		public const string GameBonus = "GameBonus";
 		public const string GameSpawnTerrain = "GameSpawnTerrain";
-		public const string GameGround = "GameGround";
 	}
 }

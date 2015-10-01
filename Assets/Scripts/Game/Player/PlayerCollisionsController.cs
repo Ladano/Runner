@@ -33,6 +33,11 @@ namespace Com.Game
 			if(OnObjectCollision!=null)
 			{
 				OnObjectCollision(collider.tag);
+				BaseSceneObject obj = collider.GetComponent<BaseSceneObject>();
+				if(obj!=null)
+				{
+					obj.OnPlayerCollision();
+				}
 			}
 		}
 	}

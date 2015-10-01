@@ -14,9 +14,12 @@ namespace Com.Game
 			{ Tags.GameSpawnTerrain, OnSpawnTerrainTrigger }
 		};
 
+		public static event Action OnGameStart;
 		public static event Action OnGameOver;
 		public static event Action<int> OnScoreValueChange;
 		public static event Action<int> OnTimePlayedValueChange;
+
+		private static GameController _instance;
 
 		private static int _score;
 		public static int Score
@@ -66,9 +69,17 @@ namespace Com.Game
 			PlayerCollisionsController.OnObjectCollision -= OnPlayerCollision;
 		}
 
+		private void Awake()
+		{
+			_instance = this;
+		}
+
 		private void Start()
 		{
-			
+			if(OnGameStart!=null)
+			{
+				OnGameStart();
+			}
 		}
 
 		#region Time
@@ -91,18 +102,20 @@ namespace Com.Game
 
 		private static void OnObstacleHit()
 		{
-			//TODO player death
+			if(OnGameOver!=null)
+			{
+				OnGameOver();
+			}
 		}
 
 		private static void OnPickUpBonus()
 		{
-			//TODO player pick up bonus
 			Score += 10;
 		}
 
 		private static void OnSpawnTerrainTrigger()
 		{
-			//TODO spawn terrain trigger
+			_instance._terrainGenerator.SpawnNewTerrain();
 		}
 		#endregion
 	}

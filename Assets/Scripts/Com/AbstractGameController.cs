@@ -36,10 +36,17 @@ namespace Com.Game
 			EndGame();
 		}
 
+		private void Update()
+		{
+			OnUpdate();
+		}
+
 		protected abstract void Init();
 
 		protected abstract void StartGame();
 
 		protected abstract void EndGame();
+
+		protected virtual void OnUpdate() { }
 	}
 }

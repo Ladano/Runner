@@ -21,41 +21,16 @@ namespace Com.Game
 
 		private static GameController _instance;
 
-		private static int _score;
-		public static int Score
+		private static int _bonusesScore = 0;
+		private static float _timePlayed = 0;
+		public static int TimeScore
 		{
-			get { return _score; }
-			set
-			{
-				if(_score!=value)
-				{
-					_score = value;
-					if(OnScoreValueChange!=null)
-					{
-						OnScoreValueChange(_score);
-					}
-				}
-			}
+			get { return Mathf.CeilToInt(_timePlayed); }
 		}
-
-		private static float _realTimePlayed;
-		private static int _timePlayed = 0;
-		public static int TimePlayed
+		public static int TotalScore
 		{
-			get { return _timePlayed; }
-			set
-			{
-				if(_timePlayed!=value)
-				{
-					_timePlayed = value;
-					if(OnTimePlayedValueChange!=null)
-					{
-						OnTimePlayedValueChange(_score);
-					}
-				}
-			}
+			get { return _bonusesScore + TimeScore; }
 		}
-
 		[SerializeField] private PlayerController _playerController;
 		[SerializeField] private TerrainGenerator _terrainGenerator;
 
@@ -85,8 +60,7 @@ namespace Com.Game
 		#region Time
 		private void Update()
 		{
-			_realTimePlayed += Time.deltaTime;
-			_timePlayed = Mathf.CeilToInt(_realTimePlayed);
+			_timePlayed += Time.deltaTime;
 		}
 		#endregion
 
@@ -106,11 +80,15 @@ namespace Com.Game
 			{
 				OnGameOver();
 			}
+			if(TotalScore>GlobalValues.BestScore)
+			{
+				GlobalValues.BestScore = TotalScore;
+			}
 		}
 
 		private static void OnPickUpBonus()
 		{
-			Score += 10;
+			_bonusesScore += 10;
 		}
 
 		private static void OnSpawnTerrainTrigger()

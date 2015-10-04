@@ -1,46 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Com.Game
 {
 	public class SceneObjectsGenerator : AbstractGameController
 	{
-		[SerializeField] private GameObject _singleObstaclePrefab;
-		[SerializeField] private GameObject _doubleObstaclePrefab;
-		[SerializeField] private GameObject _tripleObstaclePrefab;
-		[SerializeField] private GameObject _bonusPrefab;
+		private const float sceneObjectsYPos = 0.55f;
 
-		private GenericPool<BaseSceneObject> _singleObstaclesPool;
-		private GenericPool<BaseSceneObject> _doubleObstaclesPool;
-		private GenericPool<BaseSceneObject> _tripleObstaclesPool;
+		public static SceneObjectsGenerator Instance;
+
+		[SerializeField] private SceneObjectsType _obstacles;
+		[SerializeField] private SceneObjectsType _bonuses;
+
 		private GenericPool<BonusSceneObject> _bonusesPool;
 
 		protected override void Init()
 		{
-			_singleObstaclesPool = new GenericPool<BaseSceneObject>(_singleObstaclePrefab, 10);
-			_doubleObstaclesPool = new GenericPool<BaseSceneObject>(_doubleObstaclePrefab, 10);
-			_tripleObstaclesPool = new GenericPool<BaseSceneObject>(_tripleObstaclePrefab, 10);
-			_bonusesPool = new GenericPool<BonusSceneObject>(_bonusPrefab, 10);
+			Instance = this;
+			_obstacles.SceneObjects.ForEach( a => a.InitPool() );
+			_bonuses.SceneObjects.ForEach( a => a.InitPool() );
 		}
+
+		protected override void StartGame() { }
 		
-		protected override void StartGame()
+		protected override void EndGame() { }
+
+		public void TerrainFragmentFilling(TerrainFragment terrainFragment)
 		{
-
-		}
-		
-		protected override void EndGame()
-		{
-
-		}
-
-		public void GetObstacle()
-		{
-
+			for(int i=1; i<=terrainFragment.TerrainLength; i++)
+			{
+				if(!TryToSpawn(_obstacles, terrainFragment, i))
+				{
+					TryToSpawn(_bonuses, terrainFragment, i);
+				}
+			}
 		}
 
-		public void GetBonus()
+		private bool TryToSpawn(SceneObjectsType _objects, TerrainFragment terrainFragment, int zPos)
 		{
-
+			SceneObjectsData _objectToSpawn = _objects.NeedToSpawn();
+			if(_objectToSpawn!=null)
+			{
+				_objects.CooldownCounter += _objects.Cooldown;
+				BaseSceneObject sceneObject = _objectToSpawn.SceneObjectPool.GetObjectFromPool();
+				sceneObject.transform.parent = terrainFragment.transform;
+				sceneObject.transform.localPosition = new Vector3(_objectToSpawn.PossibleLineSpawn.GetRandomItem().localPosition.x,
+				                                                  sceneObjectsYPos,
+				                                                  zPos);
+				terrainFragment.AddSceneObject(sceneObject, _objectToSpawn.SceneObjectPool);
+				return true;
+			}
+			return false;
 		}
 	}
 }

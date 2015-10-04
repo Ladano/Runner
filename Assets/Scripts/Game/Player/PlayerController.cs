@@ -29,7 +29,7 @@ namespace Com.Game
 		
 		protected override void EndGame()
 		{
-			_player.SetActive	(false);
+			_player.SetActive(false);
 		}
 
 		#region Controls

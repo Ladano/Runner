@@ -15,28 +15,28 @@ namespace Com.Game
 		protected override void Init()
 		{
 			_terrainPool = new GenericPool<TerrainFragment>(_terrainPrefab, (uint)_startTerrainCount);
+			bool genObjects = false;
 			for(int i=1; i<=_startTerrainCount; i++)
 			{
-				GenerateTerrain();
+				GenerateTerrain(genObjects);
+				genObjects = true;
 			}
 		}
 
-		protected override void StartGame()
-		{
+		protected override void StartGame() { }
 
-		}
+		protected override void EndGame() { }
 
-		protected override void EndGame()
-		{
-
-		}
-
-		private void GenerateTerrain()
+		private void GenerateTerrain(bool genObjects)
 		{
 			TerrainFragment terrain = _terrainPool.GetObjectFromPool();
 			terrain.transform.parent = _rootTerrain;
 			terrain.transform.position = _startTerrainPos.position;
 			_startTerrainPos = terrain.GetNextTerrainWp();
+			if(genObjects)
+			{
+				terrain.Filling();
+			}
 		}
 
 		private void ReleaseTerrain(TerrainFragment terrain)
@@ -49,10 +49,10 @@ namespace Com.Game
 			TerrainFragment terrain = _terrainPool.GetFirstActiveObject();
 			terrain.ReleaseAllObjects();
 			ReleaseTerrain(terrain);
-			GenerateTerrain();
+			GenerateTerrain(true);
 		}
 
-		private void Update()
+		protected override void OnUpdate()
 		{
 			if(_isGameActive)
 			{

@@ -13,17 +13,11 @@ namespace Com.Game
 			_instanceRigidbody = rigidbody;
 		}
 		
-		protected override void StartGame()
-		{
-
-		}
+		protected override void StartGame() { }
 		
-		protected override void EndGame()
-		{
+		protected override void EndGame() { }
 
-		}
-
-		protected override void OnUpdate()
+		private void FixedUpdate()
 		{
 			_instanceRigidbody.WakeUp();
 		}

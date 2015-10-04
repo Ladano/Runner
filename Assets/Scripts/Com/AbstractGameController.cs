@@ -7,13 +7,13 @@ namespace Com.Game
 	{
 		protected bool _isGameActive = false;
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			GameController.OnGameStart += StartGameEvent;
 			GameController.OnGameOver += EndGameEvent;
 		}
 
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			GameController.OnGameStart -= StartGameEvent;
 			GameController.OnGameOver -= EndGameEvent;

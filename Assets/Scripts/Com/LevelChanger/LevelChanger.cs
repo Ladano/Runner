@@ -24,5 +24,10 @@ namespace Com
 
 			Application.LoadLevel(LevelsDictionary.GetLevelDataById(level).LevelName);
 		}
+
+		private void OnLevelWasLoaded(int id)
+		{
+			Time.timeScale = 1.0f;
+		}
 	}
 }

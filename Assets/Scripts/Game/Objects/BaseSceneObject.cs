@@ -14,7 +14,7 @@ namespace Com.Game
 
 		public void ReleaseObject()
 		{
-
+			gameObject.SetActive(false);
 		}
 	}
 }

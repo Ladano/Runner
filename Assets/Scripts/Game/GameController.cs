@@ -10,6 +10,7 @@ namespace Com.Game
 		private static Dictionary<string, Action> _onPlayerCollisionActions = new Dictionary<string, Action>()
 		{
 			{ Tags.GameObstacle, OnObstacleHit },
+			{ Tags.GameObstacleAway, OnAwayAbstacle },
 			{ Tags.GameBonus, OnPickUpBonus },
 			{ Tags.GameSpawnTerrain, OnSpawnTerrainTrigger }
 		};
@@ -33,6 +34,8 @@ namespace Com.Game
 		}
 		[SerializeField] private PlayerController _playerController;
 		[SerializeField] private TerrainGenerator _terrainGenerator;
+		[SerializeField] private int _pointsByBonus = 10;
+		[SerializeField] private int _pointsByAwayObstacle = 5;
 
 		private void OnEnable()
 		{
@@ -86,9 +89,14 @@ namespace Com.Game
 			}
 		}
 
+		private static void OnAwayAbstacle()
+		{
+			_bonusesScore += _instance._pointsByAwayObstacle;
+		}
+
 		private static void OnPickUpBonus()
 		{
-			_bonusesScore += 10;
+			_bonusesScore += _instance._pointsByBonus;
 		}
 
 		private static void OnSpawnTerrainTrigger()

@@ -24,14 +24,24 @@ namespace Com.Game
 
 		private void OnTriggerEnter(Collider collider)
 		{
+			OnSceneObjectHit(collider);
+		}
+
+		protected virtual void OnSceneObjectHit(Collider collider)
+		{
+			OnCollisionEventStart(collider.tag);
+			BaseSceneObject obj = collider.GetComponent<BaseSceneObject>();
+			if(obj!=null)
+			{
+				obj.OnPlayerCollision();
+			}
+		}
+
+		protected void OnCollisionEventStart(string tag)
+		{
 			if(OnObjectCollision!=null)
 			{
-				OnObjectCollision(collider.tag);
-				BaseSceneObject obj = collider.GetComponent<BaseSceneObject>();
-				if(obj!=null)
-				{
-					obj.OnPlayerCollision();
-				}
+				OnObjectCollision(tag);
 			}
 		}
 	}

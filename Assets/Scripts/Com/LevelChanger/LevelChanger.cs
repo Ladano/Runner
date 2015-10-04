@@ -27,7 +27,7 @@ namespace Com
 
 		private void OnLevelWasLoaded(int id)
 		{
-			Time.timeScale = 1.0f;
+			Time.timeScale = 1.0f;	
 		}
 	}
 }

@@ -21,6 +21,7 @@ namespace Com.Game
 		public static event Action<int> OnTimePlayedValueChange;
 
 		private static GameController _instance;
+		private static bool _isGameActive = true;
 
 		private static int _bonusesScore = 0;
 		private static float _timePlayed = 0;
@@ -50,6 +51,9 @@ namespace Com.Game
 		private void Awake()
 		{
 			_instance = this;
+			_bonusesScore = 0;
+			_timePlayed = 0.0f;
+			_isGameActive = true;
 		}
 
 		private void Start()
@@ -63,7 +67,10 @@ namespace Com.Game
 		#region Time
 		private void Update()
 		{
-			_timePlayed += Time.deltaTime;
+			if(_isGameActive)
+			{
+				_timePlayed += Time.deltaTime;
+			}
 		}
 		#endregion
 
@@ -79,6 +86,7 @@ namespace Com.Game
 
 		private static void OnObstacleHit()
 		{
+			_isGameActive = false;
 			if(OnGameOver!=null)
 			{
 				OnGameOver();

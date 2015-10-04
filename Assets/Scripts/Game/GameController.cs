@@ -10,7 +10,7 @@ namespace Com.Game
 		private static Dictionary<string, Action> _onPlayerCollisionActions = new Dictionary<string, Action>()
 		{
 			{ Tags.GameObstacle, OnObstacleHit },
-			{ Tags.GameObstacleAway, OnAwayAbstacle },
+			{ Tags.GameObstacleAway, OnAbstacleAway },
 			{ Tags.GameBonus, OnPickUpBonus },
 			{ Tags.GameSpawnTerrain, OnSpawnTerrainTrigger }
 		};
@@ -89,7 +89,7 @@ namespace Com.Game
 			}
 		}
 
-		private static void OnAwayAbstacle()
+		private static void OnAbstacleAway()
 		{
 			_bonusesScore += _instance._pointsByAwayObstacle;
 		}

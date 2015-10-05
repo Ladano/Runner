@@ -13,6 +13,15 @@ namespace Com.Game
 		[SerializeField] private Text _scoreLabel;
 		[SerializeField] private GameObject _pauseScreen;
 		[SerializeField] private GameObject _gameOverScreen;
+		[SerializeField] private ProgressBar _bestScoreProgressBar;
+		private float _progress
+		{
+			get { return Mathf.Clamp(GameController.TotalScore / GlobalValues.BestScore, 0.0f, 1.0f); }
+		}
+		private bool _isZeroScore
+		{
+			get { return (GlobalValues.BestScore==0); }
+		}
 		private bool _isPaused = false;
 
 		protected override void OnEnable()
@@ -27,7 +36,13 @@ namespace Com.Game
 			PauseButton.OnPauseButtonAction -= PauseButtonAction;
 		}
 
-		protected override void Init() { }
+		protected override void Init()
+		{
+			if(_isZeroScore)
+			{
+				_bestScoreProgressBar.gameObject.SetActive(false);
+			}
+		}
 		
 		protected override void StartGame() { }
 		
@@ -40,6 +55,17 @@ namespace Com.Game
 		{
 			_timeLabel.text = string.Format(TimeFormatString, GameController.TimeScore.ToString());
 			_scoreLabel.text = string.Format(ScoreFormatString, GameController.TotalScore.ToString());
+			if(!_isZeroScore && _progress<1.0f)
+			{
+				_bestScoreProgressBar.SetProgress(_progress);
+			}
+			else
+			{
+				if(_bestScoreProgressBar.gameObject.activeSelf)
+				{
+					_bestScoreProgressBar.gameObject.SetActive(false);
+				}
+			}
 		}
 
 		private void PauseButtonAction()

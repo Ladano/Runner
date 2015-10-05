@@ -16,7 +16,7 @@ namespace Com.Game
 		[SerializeField] private ProgressBar _bestScoreProgressBar;
 		private float _progress
 		{
-			get { return Mathf.Clamp(GameController.TotalScore / GlobalValues.BestScore, 0.0f, 1.0f); }
+			get { return Mathf.Clamp(GameController.TotalScore / (float)GlobalValues.BestScore, 0.0f, 1.0f); }
 		}
 		private bool _isZeroScore
 		{

@@ -1391,7 +1391,7 @@ MonoBehaviour:
   _scoreLabel: {fileID: 1772206264}
   _pauseScreen: {fileID: 1791810189}
   _gameOverScreen: {fileID: 1553868670}
-  _bestScoreProgressBar: {fileID: 0}
+  _bestScoreProgressBar: {fileID: 1084854400}
 --- !u!1 &1011724557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1084854398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e35895fdb9e543b5b914d1fea607910, type: 3}
+  m_Script: {fileID: 11500000, guid: cc37486f78e5b104b8a21850d3531f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _progressLine: {fileID: 1159641941}
@@ -1591,7 +1591,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1159641940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -.100000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 619463924}

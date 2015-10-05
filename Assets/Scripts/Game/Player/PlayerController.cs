@@ -17,10 +17,7 @@ namespace Com.Game
 		private bool _isControlActive = false;
 		private int _currentPos = 0; //может принимать значения (-1)слева, (0)по цетру, (1)справа
 
-		protected override void Init()
-		{
-
-		}
+		protected override void Init() { }
 		
 		protected override void StartGame()
 		{

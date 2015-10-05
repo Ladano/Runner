@@ -1853,7 +1853,7 @@ MonoBehaviour:
   _playerPhysicBody: {fileID: 626635537}
   _playerGraphicBody: {fileID: 1412215275}
   _lineOffset: 1.20000005
-  _moveSideTime: .200000003
+  _moveSideTime: .100000001
   _jumpTime: .5
   _jumpHeight: 1
 --- !u!1 &1337924136

@@ -43,9 +43,9 @@ namespace Com.Game
 
 		protected abstract void Init();
 
-		protected abstract void StartGame();
+		protected virtual void StartGame() { }
 
-		protected abstract void EndGame();
+		protected virtual void EndGame() { }
 
 		protected virtual void OnUpdate() { }
 	}

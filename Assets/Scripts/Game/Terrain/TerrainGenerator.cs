@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿	using UnityEngine;
 using System.Collections;
 
 namespace Com.Game
@@ -22,10 +22,6 @@ namespace Com.Game
 				genObjects = true;
 			}
 		}
-
-		protected override void StartGame() { }
-
-		protected override void EndGame() { }
 
 		private void GenerateTerrain(bool genObjects)
 		{
@@ -56,7 +52,7 @@ namespace Com.Game
 		{
 			if(_isGameActive)
 			{
-				_rootTerrain.Translate(Vector3.back * Time.deltaTime * _speed);
+				_rootTerrain.Translate(Vector3.back  * Time.deltaTime * _speed);
 			}
 		}
 	}

@@ -22,10 +22,6 @@ namespace Com.Game
 			_bonuses.SceneObjects.ForEach( a => a.InitPool() );
 		}
 
-		protected override void StartGame() { }
-		
-		protected override void EndGame() { }
-
 		public void TerrainFragmentFilling(TerrainFragment terrainFragment)
 		{
 			for(int i=1; i<=terrainFragment.TerrainLength; i++)

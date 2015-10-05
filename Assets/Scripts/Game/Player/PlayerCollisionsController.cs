@@ -12,10 +12,6 @@ namespace Com.Game
 		{
 			_instanceRigidbody = rigidbody;
 		}
-		
-		protected override void StartGame() { }
-		
-		protected override void EndGame() { }
 
 		private void FixedUpdate()
 		{

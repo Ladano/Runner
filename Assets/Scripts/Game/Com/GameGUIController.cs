@@ -44,8 +44,6 @@ namespace Com.Game
 			}
 		}
 		
-		protected override void StartGame() { }
-		
 		protected override void EndGame()
 		{
 			_gameOverScreen.SetActive(true);

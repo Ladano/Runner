@@ -267,7 +267,7 @@ public class UnitySceneExporter : ScriptableWizard {
 			bool hasMeshRenderer = false;
 			
 			
-			Renderer mr =  pObj.renderer;
+			Renderer mr =  pObj.GetComponent<Renderer>();
 			if(mr != null){
 				hasMeshRenderer = true ;
 			}

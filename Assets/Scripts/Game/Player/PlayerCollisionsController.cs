@@ -10,7 +10,7 @@ namespace Com.Game
 
 		protected override void Init()
 		{
-			_instanceRigidbody = rigidbody;
+			_instanceRigidbody = GetComponent<Rigidbody>();
 		}
 
 		private void FixedUpdate()

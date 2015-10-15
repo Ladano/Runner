@@ -13,8 +13,18 @@ namespace Com.Game
 		[SerializeField] private float _jumpTime = 1.0f;
 		[SerializeField] private float _jumpHeight = 1.0f;
 
-		private bool _isControlActive = false;
+		private bool _isControlActive = true;
+		public bool IsControlActive
+		{
+			get { return _isControlActive; }
+			set { _isControlActive = value; }
+		}
 		private int _currentPos = 0; //может принимать значения (-1)слева, (0)по цетру, (1)справа
+		public int CurrentPos
+		{
+			get { return _currentPos; }
+			set { _currentPos = value; }
+		}
 
 		public void Move(PlayerMoveSide direction)
 		{

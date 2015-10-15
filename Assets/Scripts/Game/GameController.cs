@@ -33,7 +33,7 @@ namespace Com.Game
 		{
 			get { return _bonusesScore + TimeScore; }
 		}
-		[SerializeField] private PlayerController _playerController;
+		[SerializeField] private PlayerMovementController _playerController;
 		[SerializeField] private TerrainGenerator _terrainGenerator;
 		[SerializeField] private int _pointsByBonus = 10;
 		[SerializeField] private int _pointsByAwayObstacle = 5;

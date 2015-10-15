@@ -1917,16 +1917,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1335747127}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0c2bdf86982d8c418eaa7d364c0a962, type: 3}
+  m_Script: {fileID: 11500000, guid: 20f2dc475c5609c4082c596976be029b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController:
+    _lineOffset: 1.20000005
+    _moveSideTime: .100000001
+    _jumpTime: .699999988
+    _jumpHeight: 1
   _player: {fileID: 1335747127}
   _playerPhysicBody: {fileID: 626635537}
   _playerGraphicBody: {fileID: 1412215275}
-  _lineOffset: 1.20000005
-  _moveSideTime: .100000001
-  _jumpTime: .5
-  _jumpHeight: 1
 --- !u!1 &1337924136
 GameObject:
   m_ObjectHideFlags: 0
